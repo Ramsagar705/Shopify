@@ -1,0 +1,17 @@
+{
+  "name": "shopify",
+  "version": "1.0.0",
+  "description": "A production-ready **MERN e-commerce** stack with:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "smoke": "node ui-smoke-test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "playwright": "^1.41.0"
+  }
+}
