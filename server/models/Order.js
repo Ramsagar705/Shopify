@@ -20,7 +20,11 @@ const orderSchema = new mongoose.Schema(
       enum: ['Pending', 'Paid', 'Shipped', 'Delivered', 'Cancelled'],
       default: 'Pending'
     },
-    paymentProvider: { type: String, enum: ['Razorpay', 'Stripe'], default: 'Razorpay' },
+    paymentProvider: {
+      type: String,
+      enum: ['Razorpay', 'Stripe', 'COD'],
+      default: 'Razorpay'
+    },
     paymentInfo: {
       orderId: String,
       paymentId: String,

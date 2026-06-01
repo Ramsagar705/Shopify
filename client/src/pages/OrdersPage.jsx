@@ -24,6 +24,7 @@ const OrdersPage = () => {
             </div>
             <div className="text-sm text-gray-600 mb-1">
               {new Date(o.createdAt).toLocaleString()} • ₹{o.totalAmount}
+              {o.paymentProvider === 'COD' && ' • Pay on delivery'}
             </div>
             <ul className="text-sm list-disc ml-5">
               {o.items.map((it, idx) => (

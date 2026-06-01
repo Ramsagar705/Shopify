@@ -5,6 +5,12 @@ const asyncHandler = require('../utils/asyncHandler');
 
 exports.createOrder = asyncHandler(async (req, res) => {
   const { paymentProvider, paymentInfo, shippingInfo } = req.body;
+  const provider = paymentProvider || 'Razorpay';
+  const isCod = provider === 'COD';
+
+  if (!isCod && !paymentInfo) {
+    return res.status(400).json({ message: 'Payment info is required for online payments' });
+  }
 
   const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
   if (!cart || cart.items.length === 0) {
@@ -22,11 +28,11 @@ exports.createOrder = asyncHandler(async (req, res) => {
     user: req.user._id,
     items: orderItems,
     totalAmount: cart.totalAmount,
-    paymentProvider: paymentProvider || 'Razorpay',
-    paymentInfo,
+    paymentProvider: provider,
+    paymentInfo: isCod ? undefined : paymentInfo,
     shippingInfo,
-    status: 'Paid',
-    paidAt: new Date()
+    status: isCod ? 'Pending' : 'Paid',
+    paidAt: isCod ? undefined : new Date()
   });
 
   for (const item of cart.items) {
@@ -64,6 +70,9 @@ exports.updateOrderStatus = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (!order) return res.status(404).json({ message: 'Order not found' });
   order.status = status;
+  if (status === 'Delivered' && order.paymentProvider === 'COD' && !order.paidAt) {
+    order.paidAt = new Date();
+  }
   await order.save();
   res.json(order);
 });

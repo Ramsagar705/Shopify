@@ -33,7 +33,12 @@ const AdminOrdersPage = () => {
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <div className="text-lg font-semibold">{o.user?.name}</div>
-                  <div className="text-sm text-gray-600">Order ID: {o._id.substring(0, 12)}...</div>
+                  <div className="text-sm text-gray-600">
+                    Order ID: {o._id.substring(0, 12)}...
+                    {o.paymentProvider === 'COD' && (
+                      <span className="ml-2 text-amber-700 font-medium">• Pay on delivery</span>
+                    )}
+                  </div>
                 </div>
                 <div className="text-right">
                   <div className="text-2xl font-bold text-indigo-600">₹{o.totalAmount}</div>
