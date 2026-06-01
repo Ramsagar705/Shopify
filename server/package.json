@@ -2,6 +2,7 @@
   "name": "shopify-backend",
   "version": "1.0.0",
   "description": "MERN E-Commerce backend with Express, MongoDB, JWT auth, Razorpay payments",
+   "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
